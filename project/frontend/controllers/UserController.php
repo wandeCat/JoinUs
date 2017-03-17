@@ -67,12 +67,19 @@ class UserController extends Controller{
 						    'value' => $user
 						]));
     				}
-    				return $this->redirect(array('/index/index'));
+                    $data="登录成功";
+                    $action='index/index';
+    				//return $this->redirect(array('/index/index'));
+                    return $this->actionSkip($data,$action);
     			}else{
-    				echo "密码错误";
+    				$data="密码错误";
+                    $action='user/login';
+                    return $this->actionSkip($data,$action);
     			}
     		}else{
-    			echo "用户名不存在";
+    			$data="用户名不存在";
+                $action='user/login';
+                return $this->actionSkip($data.$action);
     		}
 		/*
 			判断提交方式为get方式
@@ -111,7 +118,9 @@ class UserController extends Controller{
     				判断用户名是否存在
     			 */
     			if($cout1||$cout2){
-    				echo "用户名已存在";
+    				$data="用户名已存在";
+                    $action='user/register';
+                    return $this->actionSkip($data,$action);
     			}else{
     				/*
     					调用个人model添加方法
@@ -124,9 +133,13 @@ class UserController extends Controller{
 	    				/*
 	    					注册成功存cookie并跳转详细信息页
 	    				 */
-	    				return $this->redirect(array('/index/index'));
+                        $data="注册个人用户成功";
+                        $action='index/index';
+	    				return $this->actionSkip($data,$action);
 	    			}else{
-	    				echo "注册失败";
+	    				$data="注册失败";
+                        $action='user/register';
+                        return $this->actionSkip($data,$action);
 	    			}
     			}	
     		/*
@@ -146,7 +159,9 @@ class UserController extends Controller{
     				判断用户名是否存在
     			 */
     			if($cout1||$cout2){
-    				echo "用户名已存在";
+    				$data="用户名已存在";
+                    $action='user/register';
+                    return $this->actionSkip($data,$action);
     			}else{
     				/*
     					调用企业model添加方法
@@ -162,9 +177,13 @@ class UserController extends Controller{
                             'name' => 'user',
                             'value' => $user
                         ]));
-	    				return $this->redirect(array('/index/index'));
+                        $data="注册企业用户成功";
+                        $action='index/index';
+	    				return $this->actionSkip($data,$action);
 	    			}else{
-	    				echo "注册失败";
+	    				$data="注册失败";
+                        $action='user/register';
+                        return $this->actionSkip($data,$action);
 	    			}
     			}
     		}
@@ -175,6 +194,10 @@ class UserController extends Controller{
 
     public function actionReset(){
     	return $this->renderPartial('reset.php');
+    }
+
+    public function actionSkip($data,$action){
+        return $this->render('Skip.php',['data'=>$data,'action'=>$action]);
     }
 
 }
