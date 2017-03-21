@@ -1,4 +1,8 @@
-﻿<!DOCTYPE HTML>
+﻿<?php
+	use yii\helpers\Url;
+?>
+
+<!DOCTYPE HTML>
 <html>
 <head>
 <script id="allmobilize" charset="utf-8" src="style/js/allmobilize.min.js"></script>
@@ -43,10 +47,11 @@ var youdao_conv_id = 271546;
         
     	<input type="hidden" id="resubmitToken" value="" />
      	<div class="find_psw">
-        	<img src="style/images/psw_step1.png" width="369" height="56" alt="找回密码第一步" />
-            <form id="pswForm" action="http://www.lagou.com/rs.html" method="post">
-           		<input type="text" name="email" id="email" tabindex="1" value="" placeholder="请输入注册时使用的邮箱地址" />
-                                <input type="submit" id="submitLogin" value="找回密码" />
+        	<img src="style/images/psw_step2.png" width="369" height="56" alt="找回密码第二步" />
+            <form id="pswForm" action="" method="post">
+           		<input type="text" name="code" id="email" tabindex="1" value="" placeholder="请输入邮箱验证码" />
+           		<input type="hidden" name="hidden" value="2">
+                                <input type="submit" id="submitLogin" value="下一步" />
             </form>
         </div>
     </div>

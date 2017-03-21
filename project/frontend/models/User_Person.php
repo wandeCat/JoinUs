@@ -30,6 +30,7 @@ class User_Person extends Model{
 
     public function getOne1($data)
     {
+        //print_r($data);die;
         $sql = "select * from yii_person where person_email='".$data['email']."' and 1=1 or 0=1";
         return yii::$app->db->createCommand($sql)->queryOne();
     }
@@ -50,6 +51,16 @@ class User_Person extends Model{
     {
         $sql = "select * from yii_company where company_email='".$data['email']."' and 1=1 or 0=1";
         return yii::$app->db->createCommand($sql)->queryOne();
+    }
+
+    public function update1($data){
+        $sql = "update yii_person set person_password='".$data['password']."' where person_email = '".$data['email']."' and 1=1 or 0=1";
+        return yii::$app->db->createCommand($sql)->execute();
+    }
+
+    public function update2($data){
+        $sql = "update yii_company set company_password='".$data['password']."' where company_email = '".$data['email']."' and 1=1 or 0=1";
+        return yii::$app->db->createCommand($sql)->execute();
     }
 
 }

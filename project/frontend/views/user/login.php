@@ -10,10 +10,10 @@
 <link rel="alternate" media="handheld"  />
 <!-- end 云适配 -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>登录-拉勾网-最专业的互联网招聘平台</title>
+<title>登录-伯乐网-最专业的互联网招聘平台</title>
 <meta property="qc:admins" content="23635710066417756375" />
-<meta content="拉勾网是3W旗下的互联网领域垂直招聘网站,互联网职业机会尽在拉勾网" name="description">
-<meta content="拉勾,拉勾网,拉勾招聘,拉钩, 拉钩网 ,互联网招聘,拉勾互联网招聘, 移动互联网招聘, 垂直互联网招聘, 微信招聘, 微博招聘, 拉勾官网, 拉勾百科,跳槽, 高薪职位, 互联网圈子, IT招聘, 职场招聘, 猎头招聘,O2O招聘, LBS招聘, 社交招聘, 校园招聘, 校招,社会招聘,社招" name="keywords">
+<meta content="伯乐网是3W旗下的互联网领域垂直招聘网站,互联网职业机会尽在伯乐网" name="description">
+<meta content="伯乐,伯乐网,伯乐招聘,伯乐, 伯乐网 ,互联网招聘,伯乐互联网招聘, 移动互联网招聘, 垂直互联网招聘, 微信招聘, 微博招聘, 伯乐官网, 伯乐百科,跳槽, 高薪职位, 互联网圈子, IT招聘, 职场招聘, 猎头招聘,O2O招聘, LBS招聘, 社交招聘, 校园招聘, 校招,社会招聘,社招" name="keywords">
 
 <meta name="baidu-site-verification" content="QIQ6KC1oZ6" />
 
@@ -40,7 +40,7 @@ var youdao_conv_id = 271546;
 <body id="login_bg">
 	<div class="login_wrapper">
 		<div class="login_header">
-        	<a href="<?php echo Url::to(['index/index'])?>"><img src="style/images/logo_white.png" width="285" height="62" alt="拉勾招聘" /></a>
+        	<a href="<?php echo Url::to(['index/index'])?>"><img src="style/images/logo_white.png" width="285" height="62" alt="伯乐招聘" /></a>
             <div id="cloud_s"><img src="style/images/cloud_s.png" width="81" height="52" alt="cloud" /></div>
             <div id="cloud_m"><img src="style/images/cloud_m.png" width="136" height="95"  alt="cloud" /></div>
         </div>
@@ -52,7 +52,7 @@ var youdao_conv_id = 271546;
 			  	<input type="password" id="password" name="password" tabindex="2" placeholder="请输入密码" />
 				<span class="error" style="display:none;" id="beError"></span>
 			    <label class="fl" for="remember"><input type="checkbox" id="remember" value="1" checked="checked" name="autoLogin" /> 记住我</label>
-			    <a href="<?php echo Url::to(['user/reset']) ?>" class="fr" target="_blank">忘记密码？</a>
+			    <a href="<?php echo Url::to(['user/reset']) ?>" class="fr" target="">忘记密码？</a>
 			    
 				<input type="submit" id="submitLogin" value="登 &nbsp; &nbsp; 录" />
 				<!--<a style="color:#fff;" href="<?php echo Url::to(['user/login']) ?>" class="submitLogin" title="登 &nbsp; &nbsp; 录"/>登 &nbsp; &nbsp; 录</a>-->
@@ -64,7 +64,7 @@ var youdao_conv_id = 271546;
                 <input type="hidden" id="timestamp" name="timestamp" value=""/>
 			</form>
 			<div class="login_right">
-				<div>还没有拉勾帐号？</div>
+				<div>还没有伯乐帐号？</div>
 				<a  href="<?php echo Url::to(['user/register']) ?>"  class="registor_now">立即注册</a>
 			    <div class="login_others">使用以下帐号直接登录:</div>
 			    <a  href="h/ologin/auth/sina.html"  target="_blank" class="icon_wb" title="使用新浪微博帐号登录"></a>
