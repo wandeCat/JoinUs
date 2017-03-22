@@ -23,8 +23,13 @@ class User_Person extends Model{
         ];
     }
 
-	public function create($data){//DAO模式
+	public function create1($data){//DAO模式
         $sql = "insert into yii_person(person_email,person_password,type)values('{$data['email']}','{$data['password']}','{$data['type']}')";
+        return yii::$app->db->createCommand($sql)->execute();
+    }
+
+    public function create2($data){//DAO模式
+        $sql = "insert into yii_company(company_email,company_password,type)values('{$data['email']}','{$data['password']}','{$data['type']}')";
         return yii::$app->db->createCommand($sql)->execute();
     }
 
@@ -36,18 +41,6 @@ class User_Person extends Model{
     }
 
     public function getOne2($data)
-    {
-        $sql = "select * from yii_company where company_email='".$data['email']."' and 1=1 or 0=1";
-        return yii::$app->db->createCommand($sql)->queryOne();
-    }
-
-    public function getOne3($data)
-    {
-        $sql = "select * from yii_person where person_email='".$data['email']."' and 1=1 or 0=1";
-        return yii::$app->db->createCommand($sql)->queryOne();
-    }
-
-    public function getOne4($data)
     {
         $sql = "select * from yii_company where company_email='".$data['email']."' and 1=1 or 0=1";
         return yii::$app->db->createCommand($sql)->queryOne();

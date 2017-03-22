@@ -34,10 +34,8 @@ class UserController extends Controller{
         		/*
         			调用个人model查询方法
         		 */
-        		$cout1 = $model->getOne1($data);
-        		$cout2 = $model->getOne2($data);
-        		$cout3 = $model->getOne3($data);
-        		$cout4 = $model->getOne4($data);
+        		$cout1 = $model->getOne1($data);//个人库
+        		$cout2 = $model->getOne2($data);//公司库
         		/*
         			判断用户名是否存在
         		 */
@@ -45,14 +43,16 @@ class UserController extends Controller{
         			/*
         				用户名存在，进一步判断密码是否正确
         			 */
-        			if($cout3['person_password']==$data['password']||$cout4['company_password']==$data['password']){
+        			if($cout1['person_password']==$data['password']||$cout2['company_password']==$data['password']){
         				/*
         					登录成功存cookie并跳转到网站首页
         				 */
-        				if(empty($cout3)){
-        					$user = serialize($cout4);
+        				if(empty($cout1)){
+                            $user = array('person_id'=>$cout2['person_id'],'person_email'=>$cout2['person_email']);
+        					$user = serialize($user);
         				}else{
-        					$user = serialize($cout3);
+                            $user = array('person_id'=>$cout1['person_id'],'person_email'=>$cout1['person_email']);
+        					$user = serialize($user);
         				}
         				$cookies = Yii::$app->response->cookies;
         				/*
@@ -67,22 +67,29 @@ class UserController extends Controller{
         				}else{
         					$cookies->add(new \yii\web\Cookie([
     						    'name' => 'user',
-    						    'value' => $user
+    						    'value' => $user,
     						]));
         				}
-                        $data="登录成功";
-                        $action='index/index';
-        				//return $this->redirect(array('/index/index'));
-                        return $this->actionSkip($data,$action);
+                        if($cout1['type']==0){
+                            $message="个人用户登录成功";
+                            $action='index/index';
+                            //return $this->redirect(array('/index/index'));
+                            return $this->actionSkip($message,$action); 
+                        }else{
+                            $message="企业用户登录成功";
+                            $action='index/index';
+                            //return $this->redirect(array('/index/index'));
+                            return $this->actionSkip($message,$action); 
+                        }
         			}else{
-        				$data="密码错误";
+        				$message="密码错误";
                         $action='user/login';
-                        return $this->actionSkip($data,$action);
+                        return $this->actionSkip($message,$action);
         			}
         		}else{
-        			$data="用户名不存在";
+        			$message="用户名不存在";
                     $action='user/login';
-                    return $this->actionSkip($data.$action);
+                    return $this->actionSkip($message.$action);
         		}
     		/*
     			判断提交方式为get方式
@@ -91,9 +98,9 @@ class UserController extends Controller{
         		return $this->renderPartial('login.php');
         	}
         }else{
-            $data="您已登录";
+            $message="您已登录";
             $action='index/index';
-            return $this->actionSkip($data,$action);
+            return $this->actionSkip($message,$action);
         }
     }
 
@@ -109,92 +116,64 @@ class UserController extends Controller{
     			密码进行md5加密
     		 */
     		$data['password']=md5($data['password']);
-    		/*
-    			判断单选框为个人用户
-    		 */
-    		if($data['type']==0){
-    			/*
-    				实例化个人model
-    			 */
-    			$model = new \app\models\User_Person();
-    			/*
-    				调用个人model查询方法
-    			 */
-    			$cout1 = $model->getOne1($data);
-    			$cout2 = $model->getOne2($data);
-    			/*
-    				判断用户名是否存在
-    			 */
-    			if($cout1||$cout2){
-    				$data="用户名已存在";
-                    $action='user/register';
-                    return $this->actionSkip($data,$action);
-    			}else{
+			/*
+				实例化个人model
+			 */
+			$model = new \app\models\User_Person();
+			/*
+				调用个人model查询方法
+			 */
+			$cout1 = $model->getOne1($data);//个人
+			$cout2 = $model->getOne2($data);//企业
+			/*
+				判断用户名是否存在
+			 */
+			if($cout1||$cout2){
+				$message="用户名已存在";
+                $action='user/register';
+                return $this->actionSkip($message,$action);
+			}else{
+                if($data['type']==0){
+                    /*
+                        个人添加方法
+                     */
+                    $result=$model->create1($data); 
+                }else{
+                    /*
+                        企业添加方法
+                     */
+                    $result=$model->create2($data); 
+                }
+				/*
+					判断注册成功与否
+				 */
+    			if($result){
     				/*
-    					调用个人model添加方法
+    					注册成功存cookie并跳转详细信息页
     				 */
-    				$result=$model->create($data);
-    				/*
-    					判断注册成功与否
-    				 */
-	    			if($result){
-	    				/*
-	    					注册成功存cookie并跳转详细信息页
-	    				 */
-                        $data="注册个人用户成功";
-                        $action='index/index';
-	    				return $this->actionSkip($data,$action);
-	    			}else{
-	    				$data="注册失败";
-                        $action='user/register';
-                        return $this->actionSkip($data,$action);
-	    			}
-    			}	
-    		/*
-    			判断单选框为企业用户
-    		 */
-    		}else{
-    			/*
-    				实例化企业model
-    			 */
-    			$model = new \app\models\User_Company();
-    			/*
-    				调用企业model查询方法
-    			 */
-    			$cout1 = $model->getOne1($data);
-    			$cout2 = $model->getOne2($data);
-    			/*
-    				判断用户名是否存在
-    			 */
-    			if($cout1||$cout2){
-    				$data="用户名已存在";
-                    $action='user/register';
-                    return $this->actionSkip($data,$action);
-    			}else{
-    				/*
-    					调用企业model添加方法
-    				 */
-    				$result=$model->create($data);
-    				/*
-    					判断注册成功与否
-    				 */
-                    $user = serialize($data);
-	    			if($result){
-                        $cookies = Yii::$app->response->cookies;
-                        $cookies->add(new \yii\web\Cookie([
+                    $user = array('person_id'=>$result,'person_email'=>$data['email']);
+                    $user = serialize($user);
+                    $cookies = Yii::$app->response->cookies;
+                    $cookies->add(new \yii\web\Cookie([
                             'name' => 'user',
                             'value' => $user
                         ]));
-                        $data="注册企业用户成功";
+                    if($data['type']==0){
+                        $message="注册个人用户成功";
                         $action='index/index';
-	    				return $this->actionSkip($data,$action);
-	    			}else{
-	    				$data="注册失败";
-                        $action='user/register';
-                        return $this->actionSkip($data,$action);
-	    			}
+                        return $this->actionSkip($message,$action);
+                    }else{
+                        $message="注册企业用户成功";
+                        $action='index/index';
+                        return $this->actionSkip($message,$action);
+                    }
+    			}else{
+    				$message="注册失败";
+                    $action='user/register';
+                    return $this->actionSkip($message,$action);
     			}
-    		}
+			}	
+    		
     	}else{
     		return $this->renderPartial('register.php');
     	}       
@@ -205,8 +184,8 @@ class UserController extends Controller{
             //print_r($data);die;
             $model = new \app\models\User_Person();
             if(isset($data['email'])){
-                $cout1 = $model->getOne1($data);
-                $cout2 = $model->getOne2($data);
+                $cout1 = $model->getOne1($data);//个人
+                $cout2 = $model->getOne2($data);//企业
             }else{
                 $cookies = Yii::$app->request->cookies;
                 $arr=$cookies->getValue('arr');
@@ -214,8 +193,6 @@ class UserController extends Controller{
                 //print_r($arr);die;
                 $cout1 = $model->getOne1($arr);
                 $cout2 = $model->getOne2($arr);
-                $cout3 = $model->getOne3($arr);
-                $cout4 = $model->getOne4($arr);
             }
             if($cout1||$cout2){
                 if($data['hidden']==1){
@@ -262,7 +239,7 @@ class UserController extends Controller{
                         return $this->renderPartial('reset2.php');
                     }
                 }else{
-                     if(md5($data['password'])==$cout3['person_password']||md5($data['password'])==$cout4['company_password']){
+                     if(md5($data['password'])==$cout1['person_password']||md5($data['password'])==$cout2['company_password']){
                         echo "<script>alert('新旧密码相同,请重新输入');</script>";
                         return $this->renderPartial('reset3.php');
                     }else{
@@ -274,9 +251,9 @@ class UserController extends Controller{
                         $cout5=$model->update1($data);
                         $cout6=$model->update2($data);
                         if($cout5||$cout6){
-                            $data="重置密码成功，请重新登录";
+                            $message="重置密码成功，请重新登录";
                             $action='user/login';
-                            return $this->actionSkip($data,$action); 
+                            return $this->actionSkip($message,$action); 
                         }else{
                             echo "<script>alert('重置失败，请重新输入');</script>";
                             return $this->renderPartial('reset3.php');
@@ -293,8 +270,8 @@ class UserController extends Controller{
         }	
     }
     
-    public function actionSkip($data,$action){
-        return $this->render('Skip.php',['data'=>$data,'action'=>$action]);
+    public function actionSkip($message,$action){
+        return $this->render('Skip.php',['message'=>$message,'action'=>$action]);
     }
 
 }

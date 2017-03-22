@@ -40,7 +40,7 @@ $(document).ready(function() {
 </head>
 <body>
     <div class="tishi">  
-        <h1><?php echo $data ?></h1>
+        <h1><?php echo $message ?></h1>
         <p class="p"><span>页面自动<a id="href" href="<?php echo Url::to([$action]) ?>">跳转</a></span><span>等待<b id="wait">2</b>秒</span></p>
     </div>                
 </body>
