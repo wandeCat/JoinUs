@@ -4,31 +4,28 @@ use yii\web\Controller;
 use Yii;
 class TestController extends Controller{
     public function actionTest(){
-//        $request=\YII::$app->request;
-//        echo $request->get('id','false');
-//        echo $request->post('id','true');
-//        echo $request->userIP;
+        $request=\YII::$app->request;
+        //echo $request->userHost;
 //        if($request->isPost){
 //            echo '123';
 //        }
 //        return $this->render('test');
 //        echo "1322";
 //        $res=\YII::$app->response;
-//        $res->statusCode=305;
 //        $res->headers->add('pragma','max-age=5');
-//        $res->headers->set('');覆盖
-//        $res->headers->remove('');移除
+//        $res->headers->set('pragma','231');//覆盖
+//        $res->headers->remove('pragma');//移除
 //        下面这句不行问问老师
-//        $res->headers->add('location','http://www.baidu.com');
-       // $this->redirect('test');
-//        $res->headers->add('content-disposition','attachment; file="a.jpg"');
-//        $res->sendFile('./robots.txt');
+        // $res->headers->add('location','http://www.baidu.com');
+//        $this->redirect('test');
+        // $res->headers->add('content-disposition','attachment; file="a.jpg"');
+//        $res->sendFile('./robots.txt');die;
         // $session=\YII::$app->session;
 //        $session->set('user','张锦辉');
 //        echo $session->get('user');
         // $session['user']='王迪';
         // echo $session['user'];
-        return $this->renderPartial('about.html');
+//        return $this->renderPartial('about.html');
     }
      public function actionTest1(){
         return $this->renderPartial('accountBind.html');
