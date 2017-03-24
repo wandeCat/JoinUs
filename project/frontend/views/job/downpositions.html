@@ -122,10 +122,10 @@ var youdao_conv_id = 271546;
 		                                  			                                    <div><?= $jval['job_nature']?> / <?= $jval['job_wage']?>K / <?= $jval['job_experience']?> / <?= $jval['job_education']?></div>
 		                                    		                                    				                                    <div class="c9">发布时间： <?= date('Y-m-d H:i:s',$jval['job_addtime'])?></div>
 			                                    		                                    		                                    		                                    <div class="links">
-		                                    			                                       	<a class="job_refresh" href="javascript:void(0)">刷新<span>每个职位7天内只能刷新一次</span></a>
-		                                       			                                       	<a target="_blank" class="job_edit" href="create.html?positionId=149594">编辑</a>
+		                                    			                                       	
+		                                       			                                       	<a target="_blank" class="job_edit" href="<?=Url::to(['job/create']).'&job_id='.$jval['job_id']?>">编辑</a>
 		                                       	<a class="job_offlin" href="<?=Url::to(['job/up']).'&job_id='.$jval['job_id']?>">上线</a>                      
-		                                        <a class="job_del" href="javascript:void(0)">删除</a>
+		                                        
 		                                    </div>
 		                                    		                                </li>
 			                		
