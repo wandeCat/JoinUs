@@ -1,15 +1,15 @@
 <?php
 // 企业发布职位
 namespace frontend\controllers;
-use yii\web\Controller;
-use Yii;
 use app\models\YiiJob;
-class JobController extends Controller
+use frontend\ours\PublicController;
+use Yii;
+class JobController extends PublicController
 {
 	//显示发布职位页面
 	public function actionCreate()
 	{
-		setcookie('person_id',1,time()+3600,'/');
+		
 		$model= new YiiJob();
 		
 		if($data=yii::$app->request->post())
@@ -18,6 +18,7 @@ class JobController extends Controller
 			$dat['_csrf-frontend']=$data['_csrf-frontend'];
 			array_splice($data,0,1);
 			$data['job_addtime']=time();
+			$data['job_contents']=nl2br($data['job_contents']);
 			$dat['YiiJob']=$data;
 			if($model->load($dat)&&$model->save());
 			{
@@ -27,27 +28,25 @@ class JobController extends Controller
 		}
 		else
 		{
-			return $this->renderPartial('create.html',['model'=>$model]);
+			return $this->render('create.html',['model'=>$model]);
 		}
 		
 	} 
 	//展示发布的有效职位
 	public function actionPosition()
 	{
-		$company_id=$_COOKIE['person_id'];
+		$company_id=$this->user['company_id'];
 		$jdata=YiiJob::find()->where(['AND',['job_company_id'=>$company_id],['job_status'=>1]])->orderBy(['job_addtime'=>SORT_DESC])->asArray()->all();
 		
-		return $this->renderPartial('positions.html',['jobData'=>$jdata]);
+		return $this->render('positions.html',['jobData'=>$jdata]);
 	}
 	//展示发布的无效职位
 	public function actionDownposition()
 	{
-		$company_id=$_COOKIE['person_id'];
+		$company_id=$this->user['company_id'];
 		$jdata=YiiJob::find()->where(['AND',['job_company_id'=>$company_id],['job_status'=>0]])->orderBy(['job_addtime'=>SORT_DESC])->asArray()->all();
-		if($jdata)
-		{
-			return $this->renderPartial('downpositions.html',['jobData'=>$jdata]);
-		}
+		return $this->render('downpositions.html',['jobData'=>$jdata]);
+		
 		
 	}
 	//展示职位详情
@@ -57,7 +56,7 @@ class JobController extends Controller
 		$onedata=YiiJob::find()->where(['AND',['job_id'=>$job_id]])->asArray()->one();
 		if($onedata)
 		{
-			return $this->renderPartial('jobdetail.html',['oneData'=>$onedata]);
+			return $this->render('jobdetail.html',['oneData'=>$onedata]);
 		}
 	}
 	// 刷新职位

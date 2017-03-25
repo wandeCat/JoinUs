@@ -1,3 +1,7 @@
+<?php
+use yii\helpers\Url;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +19,7 @@
                 <li ><a href="?r=company/index" >公司</a></li>
                
                                     <li ><a href="?r=pre/myhome" rel="nofollow">我的简历</a></li>
-                                                    <li ><a href="?r=pre/addwork" rel="nofollow">发布职位</a></li>
+                                                    <li ><a href="<?= Url::to(['job/create'])?>" rel="nofollow">发布职位</a></li>
                             </ul>
                         <ul class="loginTop">
                 <li><a href="login.html" rel="nofollow">登录</a></li> 
