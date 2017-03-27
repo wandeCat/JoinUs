@@ -36,6 +36,7 @@ class UserController extends Controller{
         		 */
         		$cout1 = $model->getOne1($data);//个人库
         		$cout2 = $model->getOne2($data);//公司库
+                //print_r($cout2);die;
         		/*
         			判断用户名是否存在
         		 */
@@ -48,10 +49,10 @@ class UserController extends Controller{
         					登录成功存cookie并跳转到网站首页
         				 */
         				if(empty($cout1)){
-                            $user = array('person_id'=>$cout2['person_id'],'person_email'=>$cout2['person_email']);
+                            $user = array('id'=>$cout2['company_id'],'email'=>$cout2['company_email']);
         					$user = serialize($user);
         				}else{
-                            $user = array('person_id'=>$cout1['person_id'],'person_email'=>$cout1['person_email']);
+                            $user = array('id'=>$cout1['person_id'],'email'=>$cout1['person_email']);
         					$user = serialize($user);
         				}
         				$cookies = Yii::$app->response->cookies;
@@ -70,7 +71,7 @@ class UserController extends Controller{
     						    'value' => $user,
     						]));
         				}
-                        if($cout1['type']==0){
+                        if(!empty($cout1)){
                             $message="个人用户登录成功";
                             $action='index/index';
                             //return $this->redirect(array('/index/index'));
@@ -151,8 +152,9 @@ class UserController extends Controller{
     				/*
     					注册成功存cookie并跳转详细信息页
     				 */
-                    $user = array('person_id'=>$result,'person_email'=>$data['email']);
+                    $user = array('id'=>$result,'email'=>$data['email']);
                     $user = serialize($user);
+                    //print_r(unserialize($user));die;
                     $cookies = Yii::$app->response->cookies;
                     $cookies->add(new \yii\web\Cookie([
                             'name' => 'user',
@@ -271,7 +273,7 @@ class UserController extends Controller{
     }
     
     public function actionSkip($message,$action){
-        return $this->render('Skip.php',['message'=>$message,'action'=>$action]);
+        return $this->render('skip.php',['message'=>$message,'action'=>$action]);
     }
 
 }

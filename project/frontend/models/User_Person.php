@@ -25,12 +25,14 @@ class User_Person extends Model{
 
 	public function create1($data){//DAO模式
         $sql = "insert into yii_person(person_email,person_password,type)values('{$data['email']}','{$data['password']}','{$data['type']}')";
-        return yii::$app->db->createCommand($sql)->execute();
+        yii::$app->db->createCommand($sql)->execute();
+        return yii::$app->db->getLastInsertID();
     }
 
     public function create2($data){//DAO模式
         $sql = "insert into yii_company(company_email,company_password,type)values('{$data['email']}','{$data['password']}','{$data['type']}')";
-        return yii::$app->db->createCommand($sql)->execute();
+        yii::$app->db->createCommand($sql)->execute();
+        return yii::$app->db->getLastInsertID();
     }
 
     public function getOne1($data)
