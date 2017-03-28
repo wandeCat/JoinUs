@@ -6,7 +6,8 @@ use yii\helpers\Url;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+   
+    <title>伯乐招聘</title>
 </head>
 <body>
     <div id="header">
@@ -22,14 +23,16 @@ use yii\helpers\Url;
                                                     <li ><a href="<?= Url::to(['job/create'])?>" rel="nofollow">发布职位</a></li>
                             </ul>
                         <ul class="loginTop">
-                <li><a href="login.html" rel="nofollow">登录</a></li> 
+                <li><a href="<?= Url::to(['user/login'])?>" rel="nofollow">登录</a></li> 
                 <li>|</li>
-                <li><a href="register.html" rel="nofollow">注册</a></li>
+                <li><a href="<?= Url::to(['user/register'])?>" rel="nofollow">注册</a></li>
             </ul>
                                 </div>
     </div>
     <?= $content?>
 </body>
+
+
 </html>
 
     

@@ -44,24 +44,24 @@ var youdao_conv_id = 271546;
                 <dl class="company_center_aside">
 		<dt>我收到的简历</dt>
 		<dd>
-		<a href="unHandleResumes.html">待处理简历</a> 
+		<a href="<?= Url::to(['deliver/handle'])?>">待处理简历</a> 
 			</dd>
 	<dd>
-		<a href="canInterviewResumes.html">待定简历</a>
+		<a href="<?= Url::to(['deliver/handling'])?>">待定简历</a>
 	</dd>
 	<dd>
-		<a href="haveNoticeResumes.html">已通知面试简历</a>
+		<a href="<?= Url::to(['deliver/handlgre'])?>">已通知面试简历</a>
 	</dd>
 	<dd>
-		<a href="haveRefuseResumes.html">不合适简历</a>
+		<a href="<?= Url::to(['deliver/handlref'])?>">不合适简历</a>
 	</dd>
-	<dd class="btm">
+	<!-- <dd class="btm">
 		<a href="autoFilterResumes.html">自动过滤简历</a> 
-			</dd>
+			</dd> -->
 </dl>
 <dl class="company_center_aside">
 		<dt>我发布的职位</dt>
-			<dd class="current">
+			<dd>
 		<a href="<?= Url::to(['job/position'])?>">有效职位</a>
 	</dd>
 	<dd>
@@ -87,7 +87,7 @@ var youdao_conv_id = 271546;
 		                                        <span>[<?= $jval['job_city']?>]</span>
 		                                        						                        		                                    </h3>
 		                                    		                                  		<span class="receivedResumeNo"><a href="unHandleResumes.html?positionId=149594">应聘简历（1）</a></span>
-		                                  			                                    <div><?= $jval['job_nature']?> / <?= $jval['job_wage']?>K / <?= $jval['job_experience']?> / <?= $jval['job_education']?></div>
+		                                  			                                    <div><?= $jval['job_nature']?> / <?= $jval['job_wage']?> / <?= $jval['job_experience']?> / <?= $jval['job_education']?></div>
 		                                    		                                    				                                    <div class="c9">发布时间： <?= date('Y-m-d H:i:s',$jval['job_addtime'])?></div>
 			                                    		                                    		                                    		                                    <div class="links">
 		                                    			                                       	<a class="job_refresh1" href="<?=Url::to(['job/fresh']).'&job_id='.$jval['job_id']?>">刷新</a>

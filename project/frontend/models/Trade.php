@@ -18,7 +18,7 @@ class Trade extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%trade}}';
+        return '{{%yii_trade}}';
     }
 
     /**
