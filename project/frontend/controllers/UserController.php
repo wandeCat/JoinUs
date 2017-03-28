@@ -49,6 +49,7 @@ class UserController extends Controller{
         					登录成功存cookie并跳转到网站首页
         				 */
         				if(empty($cout1)){
+
                             $user = array('id'=>$cout2['company_id'],'email'=>$cout2['company_email']);
         					$user = serialize($user);
         				}else{
