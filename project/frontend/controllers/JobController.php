@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use app\models\YiiJob;
 use frontend\ours\PublicController;
 use Yii;
+use yii\db\Query;
 class JobController extends PublicController
 {
 	//显示发布职位页面
@@ -11,10 +12,8 @@ class JobController extends PublicController
 	{
 		
 		$model= new YiiJob();
-		
 		if($data=yii::$app->request->post())
 		{
-			
 			$dat['_csrf-frontend']=$data['_csrf-frontend'];
 			array_splice($data,0,1);
 			$data['job_addtime']=time();
@@ -52,11 +51,43 @@ class JobController extends PublicController
 	//展示职位详情
 	public function actionInfoposition()
 	{
+		$query= new Query;
+		// 获取简历ID
+		if(isset($this->user['person_id']))
+		{
+			$id=$this->user['person_id'];
+			$resumeid=	$query ->select('resume_id')
+								->from('yii_resume')
+								->where(['AND',['person_id'=>$id],['resume_acquiesce'=>1]])
+								->one();
+								
+			$resume_id=$resumeid['resume_id'];
+		}
+		else
+		{
+			$id=$this->user['company_id'];
+			$resume_id=0;
+		}
 		$job_id=yii::$app->request->get('job_id');
+		// 查看是否投过简历
+		$result=$query ->select('deliver_id')
+								->from('yii_deliver')
+								->where(['AND',['deliver_resume_id'=>$resume_id],['deliver_job_id'=>$job_id]])
+								->one();
+		if($result)
+		{
+			$res=1;
+		}
+		else
+		{
+			$res=0;
+		}
+		
+		
 		$onedata=YiiJob::find()->where(['AND',['job_id'=>$job_id]])->asArray()->one();
 		if($onedata)
 		{
-			return $this->render('jobdetail.html',['oneData'=>$onedata]);
+			return $this->render('jobdetail.html',['oneData'=>$onedata,'resume_id'=>$resume_id,'res'=>$res]);
 		}
 	}
 	// 刷新职位

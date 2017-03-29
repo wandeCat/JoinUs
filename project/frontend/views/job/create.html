@@ -5,6 +5,7 @@ $company_id=unserialize(yii::$app->request->cookies->getValue('user'))['company_
 ?>
 <!DOCTYPE HTML>
 <html xmlns:wb="http://open.weibo.com/wb"><head>
+
 </script><script type="text/javascript" async="" src="style/js/conversion.js"></script><script src="style/js/allmobilize.min.js" charset="utf-8" id="allmobilize"></script><style type="text/css"></style>
 <meta content="no-siteapp" http-equiv="Cache-Control">
 <link  media="handheld" rel="alternate">
@@ -47,20 +48,20 @@ var youdao_conv_id = 271546;
                 <dl class="company_center_aside">
 		<dt>我收到的简历</dt>
 		<dd>
-		<a href="">待处理简历</a> 
+		<a href="<?= Url::to(['deliver/handle'])?>">待处理简历</a> 
 			</dd>
 	<dd>
-		<a href="canInterviewResumes.html">待定简历</a>
+		<a href="<?= Url::to(['deliver/handling'])?>">待定简历</a>
 	</dd>
 	<dd>
-		<a href="haveNoticeResumes.html">已通知面试简历</a>
+		<a href="<?= Url::to(['deliver/handlgre'])?>">已通知面试简历</a>
 	</dd>
 	<dd>
-		<a href="haveRefuseResumes.html">不合适简历</a>
+		<a href="<?= Url::to(['deliver/handlref'])?>">不合适简历</a>
 	</dd>
-	<dd class="btm">
+	<!-- <dd class="btm">
 		<a href="autoFilterResumes.html">自动过滤简历</a> 
-			</dd>
+			</dd> -->
 </dl>
 <dl class="company_center_aside">
 		<dt>我发布的职位</dt>

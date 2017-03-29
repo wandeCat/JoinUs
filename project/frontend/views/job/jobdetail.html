@@ -1,4 +1,7 @@
-﻿<!DOCTYPE HTML>
+﻿<?php
+use yii\helpers\Url;
+?>
+<!DOCTYPE HTML>
 <html xmlns:wb="http://open.weibo.com/wb">
 <head>
 <script id="allmobilize" charset="utf-8" src="style/js/allmobilize.min.js"></script>
@@ -52,7 +55,7 @@ var youdao_conv_id = 271546;
                        		                       	</a>
                        	                    </dt>
                     <dd class="job_request">
-                    	<span class="red"><?= $oneData['job_wage']?>k</span>
+                    	<span class="red"><?= $oneData['job_wage']?></span>
                        	<span><?= $oneData['job_city']?></span> 
                        	<span><?= $oneData['job_experience']?> </span>
                        	<span> <?= $oneData['job_education']?></span> 
@@ -86,9 +89,27 @@ var youdao_conv_id = 271546;
 						</div>
                     </div>
                                         <dd>
-                                        	                    			                        	<a href="#loginPop" title="登录" class="inline btn fr btn_apply">投个简历</a>
+                                        	                    			                        	
 	                        	                   		                	                </dd>
                 </dl>
+                <?php if($res==0){?>
+                <a id="deliver" class="fr btn" href="<?=Url::to(['deliver/add']).'&deliver_job_id='.$oneData['job_id'].'&deliver_job_name='.$oneData['job_name'].'&deliver_company_id='.$oneData['job_company_id'].'&deliver_resume_id='.$resume_id;?>" onclick='return conf()'>投个简历</a>
+                <?php }else{?>
+                <a class="fr btn" href="javascript:void()">已投过简历</a>
+                <?php }?>
+                <script>
+                function conf()
+                {
+                	if(confirm('确定投递简历吗？'))
+                	{
+                		return true;
+                	}
+                	else
+                	{
+                		return false;
+                	}
+                }
+                </script>
                                 <div id="weibolist"></div>
             </div>	
             <div class="content_r">
@@ -301,8 +322,8 @@ var youdao_conv_id = 271546;
          </table>
      </div><!--/#uploadFileSuccess-->
 	
-	<!-- 登录框 -->
-	<div id="loginPop" class="popup" style="height:240px;">
+	 <!-- 登录框 -->
+	 <div id="loginPop" class="popup" style="height:240px;">
        	<form id="loginForm">
 			<input type="text" id="email" name="email" tabindex="1" placeholder="请输入登录邮箱地址" />
 			<input type="password" id="password" name="password" tabindex="2" placeholder="请输入密码" />
@@ -318,7 +339,7 @@ var youdao_conv_id = 271546;
 		    <a href="h/ologin/auth/sina.html" target="_blank" class="icon_wb" title="使用新浪微博帐号登录"></a>
 		    <a href="h/ologin/auth/qq.html" class="icon_qq" target="_blank" title="使用腾讯QQ帐号登录" ></a>
 		</div>
-    </div><!--/#loginPop-->
+    </div> <!--/#loginPop 
     
     <!-- 投简历成功前填写基本信息 -->
     <style>
@@ -613,6 +634,7 @@ $(function(){
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=3d6a9f4b807441569414b01eecc20959"></script>
 <script type="text/javascript">
+		
 		//百度地图API功能
 		var sMap = new BMap.Map("smallmap");
 		sMap.enableScrollWheelZoom(true);
