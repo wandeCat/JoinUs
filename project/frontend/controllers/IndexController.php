@@ -8,6 +8,9 @@ use app\models\User_Person;
 use app\models\YiiCompany_info;
 use yii\data\Pagination; 
 use app\models\Yiijob;
+use app\models\JobWage;
+use app\models\JobExperience;
+use app\models\JobEducation;
 class IndexController extends Controller{
 	public $enableCsrfValidation=false;
 	public $layout=false;
@@ -26,22 +29,34 @@ class IndexController extends Controller{
 
 	function actionList()
 	{	
-		$post=yii::$app->request->post('spc');
-		//echo $post;die;
+		$get=yii::$app->request->get('spc');
+		/*echo "<pre>";
+		print_r($_GET);die;*/
 		$job_wage = isset($_GET['job_wage'])?$_GET['job_wage']:"";
-		//echo $job_wage;
+		$job_experience = isset($_GET['job_experience'])?$_GET['job_experience']:"";
+		$job_education = isset($_GET['job_education'])?$_GET['job_education']:"";
+
 		$arr=explode('-', $job_wage);
-		//print_r($arr);die;
-		$kd=yii::$app->request->post('kd');
+		$kd=yii::$app->request->get('kd');
+		
+		//薪资
+		$wage=\app\models\JobWage::find()->asarray()->all();
+		//经验
+		$experience=\app\models\JobExperience::find()->asarray()->all();
+		//学历
+		$education=\app\models\JobEducation::find()->asarray()->all();
+
 		//等于1时是搜索用户表
-	    if(yii::$app->request->post('spc')==1){
-	    	
+	    if(yii::$app->request->get('spc')==1){
 		   	if(empty($job_wage)){
-		   		$query = \app\models\YiiJob::find() -> where(['like','job_name',"$kd"]);
+				$arr=['like','job_name',"$kd"];
+		   		//$query = \app\models\YiiJob::find() -> where(['like','job_name',"$kd"]);
 		   	}else{
-		   		$query = \app\models\YiiJob::find() -> where(['like','job_name',"$kd"])->where(['between',"$arr[0]","$arr[1]"]);
+				$arr=['and',['like','job_name',"$kd"],['between','job_wage',"$arr[0]","$arr[1]"]];
+		   		//$query = \app\models\YiiJob::find() -> where(['and',['like','job_name',"$kd"],['between','job_wage',"$arr[0]","$arr[1]"]]);
 		   	}
 
+			$query = \app\models\YiiJob::find() -> where($arr);
 	    }else{
 			$query = \app\models\YiiCompanyInfo::find() -> where(['like','company_name',"$kd"]);
 	    }
@@ -50,8 +65,9 @@ class IndexController extends Controller{
 	    $pagination = new Pagination([  
             'defaultPageSize' => 5,  
             'totalCount' => $query->count(),  
-        ]);  
-  
+        ]);
+		//$url = '&id=1&action=search';
+		$pagination->route = 'index/list';
         $countries = $query  
             ->offset($pagination->offset)  
             ->limit($pagination->limit)
@@ -61,8 +77,16 @@ class IndexController extends Controller{
         return $this->render('list.php', [
             'countries' => $countries,  
             'pagination' => $pagination,
-            'post' => $post,
-            'kd' => $kd,  
+            'post' => $get,
+            'kd' => $kd,
+
+			'job_wage'=>$job_wage,
+			'job_experience'=>$job_experience,
+			'job_education'=>$job_education,
+			
+			'wage'=>$wage,
+			'experience'=>$experience,
+			'education'=>$education,
         ]); 
         //print_r($countries);die;
 

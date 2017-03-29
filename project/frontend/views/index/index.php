@@ -103,7 +103,8 @@ var youdao_conv_id = 271546;
 		</div>
         <div class="content">	
 	        			<div id="search_box">
-		<form  action="<?= Url::to(['index/list'])?>" method="post">
+		<form  action="" method="get">
+		<input type="hidden" name="r" value="index/list"/>
         <ul id="searchType">
         	        	<li data-searchtype="1" class="type_selected">职位</li>
         	<li data-searchtype="4">公司</li>

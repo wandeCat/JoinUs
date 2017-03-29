@@ -74,35 +74,38 @@ var youdao_conv_id = 271546;
                                 <dl >
                    	<dt>月薪范围 <em ></em></dt>
 	                <dd >
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'0k-2k']) ?>">0k-2k</a></div>
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'2k-5k']) ?>">2k-5k</a></div>
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'5k-10k']) ?>">5k-10k</a></div>
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'10k-15k']) ?>">10k-15k</a></div>
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'15k-25k']) ?>">15k-25k</a></div>
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'25k-50k']) ?>">25k-50k</a></div>
-	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>'50k- ']) ?>">50k- </a></div>
+					<?php foreach($wage as $key=>$val){?>
+	                    	                    	<div>
+													<a href="<?php echo Url::to(['index/list','job_wage'=>$val['job_wage_val'],'spc'=>1,'kd'=>$kd,'job_experience'=>$job_experience,'job_education'=>$job_education]) ?>">
+													<?= $val['job_wage_val']?></a></div>
+					<?php }?>
+	                    	                    	
 	                </dd> 
                 </dl>
                                 <dl >
                    	<dt>工作经验 <em ></em></dt>
 	                <dd >
-	                    	                    	<div>不限</div>
-	                    	                    	<div>应届毕业生</div>
-	                    	                    	<div>1年以下</div>
-	                    	                    	<div>1-3年</div>
-	                    	                    	<div>3-5年</div>
-	                    	                    	<div>5-10年</div>
-	                    	                    	<div>10年以上</div>
+	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>$job_wage,'spc'=>1,'kd'=>$kd,'job_experience'=>'','job_education'=>$job_education]) ?>">不限</a></div>
+													
+	                    	                    	<?php foreach($experience as $key=>$val){?>
+													<div>
+	                    	                    	<a href="<?php echo Url::to(['index/list','job_wage'=>$job_wage,'spc'=>1,'kd'=>$kd,'job_experience'=>$val['job_experience_val'],'job_education'=>$job_education]) ?>"><?= $val['job_experience_val']?></a>
+													</div>
+													<?php }?>
+	                    	                    	
+	                </dd> 
 	                    	                </dd> 
                 </dl>
                                 <dl >
                    	<dt>最低学历 <em ></em></dt>
 	                <dd >
-	                    	                    	<div>不限</div>
-	                    	                    	<div>大专</div>
-	                    	                    	<div>本科</div>
-	                    	                    	<div>硕士</div>
-	                    	                    	<div>博士</div>
+	                    	                    	<div><a href="<?php echo Url::to(['index/list','job_wage'=>$job_wage,'spc'=>1,'kd'=>$kd,'job_experience'=>$job_experience,'job_education'=>'']) ?>">不限</a></div>
+													
+	                    	                    	<?php foreach($education as $key=>$val){?>
+													<div>
+	                    	                    	<a href="<?php echo Url::to(['index/list','job_wage'=>$job_wage,'spc'=>1,'kd'=>$kd,'job_experience'=>$job_experience,'job_education'=>$val['job_education_val']]) ?>"><?= $val['job_education_val']?></a>
+													</div>
+													<?php }?>
 	                    	                </dd> 
                 </dl>
                                 <dl >
@@ -155,7 +158,8 @@ var youdao_conv_id = 271546;
         
         <div class="content">
         	<div id="search_box">
-		<form  action="<?= Url::to(['index/list'])?>" method="post">
+		<form  action="" method="get">
+		<input type="hidden" name="r" value="index/list"/>
         <ul id="searchType">
         	        	<li data-searchtype="1" class="type_selected">职位</li>
         	<li data-searchtype="4">公司</li>
