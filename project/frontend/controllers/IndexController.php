@@ -14,6 +14,7 @@ use app\models\JobEducation;
 class IndexController extends Controller{
 	public $enableCsrfValidation=false;
 	public $layout=false;
+	//首页
     public function actionIndex(){
 		//职位分类
 		$trade = Trade::find()->asArray()->all();
@@ -26,12 +27,12 @@ class IndexController extends Controller{
 		print_r($data['job']);die;*/
         return $this->renderPartial('index.php',$data);
     }
-
+	
+	//搜索页面
 	function actionList()
 	{	
 		$get=yii::$app->request->get('spc');
-		/*echo "<pre>";
-		print_r($_GET);die;*/
+		//搜索条件
 		$job_wage = isset($_GET['job_wage'])?$_GET['job_wage']:"";
 		$job_experience = isset($_GET['job_experience'])?$_GET['job_experience']:"";
 		$job_education = isset($_GET['job_education'])?$_GET['job_education']:"";

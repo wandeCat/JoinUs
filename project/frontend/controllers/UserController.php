@@ -50,10 +50,10 @@ class UserController extends Controller{
         				 */
         				if(empty($cout1)){
 
-                            $user = array('id'=>$cout2['company_id'],'email'=>$cout2['company_email']);
+                            $user = array('id'=>$cout2['company_id'],'email'=>$cout2['company_email'],'type'=>$cout2['type']);
         					$user = serialize($user);
         				}else{
-                            $user = array('id'=>$cout1['person_id'],'email'=>$cout1['person_email']);
+                            $user = array('id'=>$cout1['person_id'],'email'=>$cout1['person_email'],'type'=>$cout1['type']);
         					$user = serialize($user);
         				}
         				$cookies = Yii::$app->response->cookies;
@@ -153,7 +153,7 @@ class UserController extends Controller{
     				/*
     					注册成功存cookie并跳转详细信息页
     				 */
-                    $user = array('id'=>$result,'email'=>$data['email']);
+                    $user = array('id'=>$result,'email'=>$data['email'],'type'=>$data['type']);
                     $user = serialize($user);
                     //print_r(unserialize($user));die;
                     $cookies = Yii::$app->response->cookies;
