@@ -8,6 +8,9 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    //'name'=>'User',
+    'defaultRoute'=>'user',
+    // 'defaultRoute'=>'index', //默认访问的控制器  
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -15,6 +18,8 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => 'fill in a secret key here',//设置自己的COOKIE必须加这一句
+
         ],
         'user' => [
             'identityClass' => 'common\models\User',

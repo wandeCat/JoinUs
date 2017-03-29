@@ -12,6 +12,7 @@ use common\models\LoginForm;
  */
 class SiteController extends Controller
 {
+    
     /**
      * @inheritdoc
      */
@@ -70,12 +71,15 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load($post = Yii::$app->request->post()) && $model->login()) {
+            //setcookie('username',$post['LoginForm']['username']);
+            //print_r($post['LoginForm']['username']);die;
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -91,8 +95,14 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        //$this->beforeAction('Logoout');
 
-        return $this->goHome();
+        Yii::$app->user->logout();
+        $model = new LoginForm();
+        return $this->render('login', [
+                'model' => $model,
+            ]);
     }
+
+  
 }

@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use app\models\User;
-use app\models\UserSearch;
+use app\models\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class UserController extends Controller
 {
+
+    public $defaultAction = 'admin';//设置默认访问Action方法admin
     /**
      * @inheritdoc
      */
@@ -38,7 +40,7 @@ class UserController extends Controller
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->renderPartial('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -51,7 +53,7 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderPartial('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -68,7 +70,7 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->renderPartial('create', [
                 'model' => $model,
             ]);
         }
@@ -87,7 +89,7 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->renderPartial('update', [
                 'model' => $model,
             ]);
         }
@@ -120,5 +122,53 @@ class UserController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+     public function actionAdmin()
+    {
+        $laout=false;
+        return $this->render('admin');
+    }
+
+    public $enableCsrfValidation=false;
+    public $layout=false;
+
+    //设置登录方法
+    public function actionLogin()
+    {
+        if($data=Yii::$app->request->post()){
+
+            $data['password']=md5($data['password']);
+            $model = new User();
+            $resname = $model->getOne($data);
+            $respwd = $model->getTwo($data);
+            if ($resname) {
+                if($respwd){
+                    if (!empty($data['remember_me'])) {
+                        setcookie('username',$data['username'],time()+3600*24*7);
+                        return $this->redirect(array('/user/admin'));
+                    }else{
+                        setcookie('username',$data['username']);
+                        return $this->redirect(array('/user/admin'));                    
+                    }
+                    
+                }else{
+                    echo "This pass word error";
+                    die;
+                }
+            }else{
+                echo "This user name error";
+                die;
+            }
+            print_r($data);die;
+        }else{
+            return $this->renderPartial('login');
+        }
+    }
+
+    //设置登出方法
+    public function actionLogout()
+    {
+        setcookie('username','',time()-1);
+        return $this->renderPartial('login');
     }
 }
