@@ -34,7 +34,7 @@ class JobController extends PublicController
 	//展示发布的有效职位
 	public function actionPosition()
 	{
-		$company_id=$this->user['company_id'];
+		$company_id=$this->user['id'];
 		$jdata=YiiJob::find()->where(['AND',['job_company_id'=>$company_id],['job_status'=>1]])->orderBy(['job_addtime'=>SORT_DESC])->asArray()->all();
 		
 		return $this->render('positions.html',['jobData'=>$jdata]);
@@ -42,7 +42,7 @@ class JobController extends PublicController
 	//展示发布的无效职位
 	public function actionDownposition()
 	{
-		$company_id=$this->user['company_id'];
+		$company_id=$this->user['id'];
 		$jdata=YiiJob::find()->where(['AND',['job_company_id'=>$company_id],['job_status'=>0]])->orderBy(['job_addtime'=>SORT_DESC])->asArray()->all();
 		return $this->render('downpositions.html',['jobData'=>$jdata]);
 		
@@ -53,9 +53,9 @@ class JobController extends PublicController
 	{
 		$query= new Query;
 		// 获取简历ID
-		if(isset($this->user['person_id']))
+		if(isset($this->user['id']))
 		{
-			$id=$this->user['person_id'];
+			$id=$this->user['id'];
 			$resumeid=	$query ->select('resume_id')
 								->from('yii_resume')
 								->where(['AND',['person_id'=>$id],['resume_acquiesce'=>1]])
@@ -65,7 +65,7 @@ class JobController extends PublicController
 		}
 		else
 		{
-			$id=$this->user['company_id'];
+			$id=$this->user['id'];
 			$resume_id=0;
 		}
 		$job_id=yii::$app->request->get('job_id');

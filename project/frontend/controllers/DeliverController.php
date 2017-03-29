@@ -13,7 +13,7 @@ class DeliverController extends PublicController
 	// 显示待处理简历
 	public function actionHandle()
 	{
-		$company_id=$this->user['company_id'];	
+		$company_id=$this->user['id'];	
 		$query= new Query;
 		// 公司名称
 		$this->company_name=$query  ->select("company_name")->from('yii_company_info')->where(['AND',['company_id'=>$company_id]])->one();
@@ -30,7 +30,7 @@ class DeliverController extends PublicController
 	// 显示待定简历
 	public function actionHandling()
 	{
-		$company_id=$this->user['company_id'];	
+		$company_id=$this->user['id'];	
 		$query= new Query;
 		// 公司名称
 		$this->company_name=$query  ->select("company_name")->from('yii_company_info')->where(['AND',['company_id'=>$company_id]])->one();
@@ -48,7 +48,7 @@ class DeliverController extends PublicController
 	//显示已通知面试简历
 	public function actionHandlgre()
 	{
-		$company_id=$this->user['company_id'];	
+		$company_id=$this->user['id'];	
 		$query= new Query;
 		// 公司名称
 		$this->company_name=$query  ->select("company_name")->from('yii_company_info')->where(['AND',['company_id'=>$company_id]])->one();
@@ -65,7 +65,7 @@ class DeliverController extends PublicController
 	// 显示不合适简历
 	public function actionHandlref()
 	{
-		$company_id=$this->user['company_id'];	
+		$company_id=$this->user['id'];	
 		$query= new Query;
 		// 公司名称
 		$this->company_name=$query  ->select("company_name")->from('yii_company_info')->where(['AND',['company_id'=>$company_id]])->one();
