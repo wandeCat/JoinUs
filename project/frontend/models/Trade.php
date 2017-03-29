@@ -15,11 +15,7 @@ class Trade extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%yii_trade}}';
-    }
+     */  
 
     /**
      * @inheritdoc
