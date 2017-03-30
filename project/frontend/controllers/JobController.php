@@ -2,6 +2,7 @@
 // 企业发布职位
 namespace frontend\controllers;
 use app\models\YiiJob;
+use app\models\YiiCompanyInfo;
 use frontend\ours\PublicController;
 use Yii;
 use yii\db\Query;
@@ -12,10 +13,20 @@ class JobController extends PublicController
 	{
 		
 		$model= new YiiJob();
+		$query= new Query;
+		// 套餐类型
+		$taocan=$query          ->select('taocan_id')
+								->from('yii_company_info')
+								->where(['AND',['company_id'=>$this->user['id']]])
+								->one();
+		$taocan_id=$taocan['taocan_id'];
 		if($data=yii::$app->request->post())
 		{
 			$dat['_csrf-frontend']=$data['_csrf-frontend'];
-			array_splice($data,0,1);
+			
+			$taocan=$data['job_taocan'];
+			$res=YiiCompanyInfo::updateALL(['taocan_id'=>$taocan],'company_id=:company_id',[':company_id'=>$this->user['id']]);
+			array_splice($data,0,2);
 			$data['job_addtime']=time();
 			$data['job_contents']=nl2br($data['job_contents']);
 			$dat['YiiJob']=$data;
@@ -27,7 +38,7 @@ class JobController extends PublicController
 		}
 		else
 		{
-			return $this->render('create.html',['model'=>$model]);
+			return $this->render('create.html',['model'=>$model,'taocan'=>$taocan_id]);
 		}
 		
 	} 

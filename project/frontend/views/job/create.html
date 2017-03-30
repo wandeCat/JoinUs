@@ -97,11 +97,47 @@ var youdao_conv_id = 271546;
                     	<?php $form=ActiveForm::begin();?>
                             <input type="hidden" value="" >
                             <input type="hidden" value="create" >
-                            <input type="hidden" value="<?= $company_id?>" name="job_company_id">
+                            
                             <!-- <input type="hidden" value="c29d4a7c35314180bf3be5eb3f00048f" name="resubmitToken"> -->
                             <table class="btm">
-                            	<tbody><tr>
-                                	<td width="25"><span class="redstar">*</span></td>
+                            	<tbody>
+								<tr>
+									<td width="25"><span class="redstar">*</span></td>
+                                	<td width="85">选择套餐</td>
+									<td>
+									<input type="radio" name="job_taocan" id="ccc" value="1" checked class="taocan ">套餐一&nbsp;&nbsp;
+									<input type="radio" name="job_taocan" id="" value="2" class="taocan">套餐二&nbsp;&nbsp;
+									<input type="radio" name="job_taocan" id="" value="3" class="taocan">套餐三&nbsp;&nbsp;
+									<span style="color:red;padding-left:50px">注：套餐一包含每月10个发布职位，套餐二包含广告和每月15个发布职位，套餐三包含广告和每月20个发布职位；套餐二、三是付费套餐。</span style="color:red;magin-left:20px">	
+									</td>
+								</tr>
+
+	<script>
+	$(function(){
+		var company=<?= $company_id?$company_id:0?>;
+		if(!company==0)
+		{
+			alert('请登录');
+			location.href="<?= Url::to(['user/login'])?>";
+		}
+	})
+	$('.taocan').click(function(){
+		var val=$('input:radio:checked').val();
+		var taocan=<?= $taocan?$taocan:0;?>;
+		if(val !=1 && val!=taocan)
+		{
+			var res=confirm('本套餐收费，请先支付');
+			if(res)
+			{
+				location.href='支付接口';
+			}
+			$(this).attr('checked',false);
+			
+		}
+	});
+	</script>
+                            	<tr>
+                                	<td width="25"><span class="redstar">*</span><input type="hidden" value="<?= $company_id?>" name="job_company_id"></td>
                                 	<td width="85">职位类别</td>
                                 	<td>
                                     	<input type="hidden" id="positionType" value="" name="job_trade">
